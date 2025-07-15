@@ -13,18 +13,56 @@
     "Other"
   ],
   "main": "./dist/extension.js",
- "activationEvents": [
-  "onCommand:inlineConsole.toggle"
-],
-"contributes": {
-  "commands": [
-    {
-      "command": "inlineConsole.toggle",
-      "title": "Toggle Inline Console Logs"
-    }
-  ]
-}
-,
+  "activationEvents": [],
+  "contributes": {
+    "commands": [
+      {
+        "command": "inlineConsole.toggle",
+        "title": "Toggle Inline Console Logs"
+      },
+      {
+        "command": "inlineConsole.clear",
+        "title": "Clear Inline Console Logs"
+      },
+      {
+        "command": "inlineConsole.refresh",
+        "title": "Refresh Inline Console Logs"
+      }
+    ],
+    "configuration": {
+      "title": "Simpel Logger",
+      "properties": {
+        "simpelLogger.executionTimeout": {
+          "type": "number",
+          "default": 3000,
+          "description": "Execution timeout in milliseconds"
+        },
+        "simpelLogger.debounceDelay": {
+          "type": "number",
+          "default": 500,
+          "description": "Debounce delay for updates in milliseconds"
+        },
+        "simpelLogger.truncateLength": {
+          "type": "number",
+          "default": 60,
+          "description": "Maximum length of inline output before truncation"
+        },
+        "simpelLogger.enableOnStartup": {
+          "type": "boolean",
+          "default": false,
+          "description": "Enable inline console logs when VS Code starts"
+        }
+      }
+    },
+    "keybindings": [
+      {
+        "command": "inlineConsole.toggle",
+        "key": "ctrl+shift+l",
+        "mac": "cmd+shift+l",
+        "when": "editorTextFocus"
+      }
+    ]
+  },
   "scripts": {
     "vscode:prepublish": "npm run package",
     "compile": "npm run check-types && npm run lint && node esbuild.js",
@@ -39,17 +77,28 @@
     "lint": "eslint src",
     "test": "vscode-test"
   },
-  "devDependencies": {
-    "@types/vscode": "^1.102.0",
+  "dependencies": {
+    "@babel/generator": "^7.28.0",
+    "@babel/parser": "^7.28.0",
+    "@babel/traverse": "^7.28.0",
+    "@babel/types": "^7.28.1",
+    "@types/http-proxy": "^1.17.14",
     "@types/mocha": "^10.0.10",
     "@types/node": "20.x",
+    "@types/vscode": "^1.102.0",
+    "@types/ws": "^8.5.10",
     "@typescript-eslint/eslint-plugin": "^8.31.1",
     "@typescript-eslint/parser": "^8.31.1",
-    "eslint": "^9.25.1",
+    "@vscode/test-cli": "^0.0.11",
+    "@vscode/test-electron": "^2.5.2",
     "esbuild": "^0.25.3",
+    "eslint": "^9.25.1",
+    "http-proxy": "^1.18.1",
     "npm-run-all": "^4.1.5",
     "typescript": "^5.8.3",
-    "@vscode/test-cli": "^0.0.11",
-    "@vscode/test-electron": "^2.5.2"
+    "ws": "^8.14.2"
+  },
+  "devDependencies": {
+    "@types/babel__traverse": "^7.20.7"
   }
 }
